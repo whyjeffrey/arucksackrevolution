@@ -1,0 +1,9 @@
+{
+  "galaxy.meteor.com": { 
+     "env": { 
+       "ROOT_URL":"https://rockshurt.com",
+       "MONGO_URL": "mongodb://rockshurt:rockshurtdb@ds161495.mlab.com:61495/rockshurtdb",
+       "MAIL_URL": "smtp://postmaster%40mg.rockshurt.com:1bb55723b54e1cbe37741443d9b1d372@smtp.mailgun.org:587"
+     } 
+   }
+}	

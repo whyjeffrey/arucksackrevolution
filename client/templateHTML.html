@@ -1,0 +1,361 @@
+<template name='main'>
+  <header>
+    {{> navigation}}
+  </header>
+  <div class="page-wrap">
+    {{> yield}}
+  </div>  
+</template>
+
+<template name="navigation">
+    <nav class="navbar">
+      <li style="float:left"><a href="{{pathFor route='welcomepic'}}">Rocks Hurt</a></li>
+      {{#if currentUser}}
+        <li style="float:right">
+          <div class="dropdown">
+            <button class="ui dropdown button">
+              <div class="bar1"></div>
+              <div class="bar2"></div>
+              <div class="bar3"></div>
+            </button>
+            <div class="dropdown-content menu">
+              <div class="item"><a href="{{pathFor route='useraccounts'}}">My Account</a></div>
+              <div class="item"><a href="{{pathFor route='gear'}}">GearDB</a></div>
+              <div class="item"><a href="{{pathFor route='mygear'}}">My Gear</a></div>
+              <div class="item"><a href="{{pathFor route='kayaking_map'}}">Kayaking</a></div>
+              <div class="item"><a href="{{pathFor route='contact'}}">Contact Us</a></div>
+            </div>
+          </div> 
+        </li>       
+        <li style="float:right"><a href="#" class="logout">Logout</a></li>
+      {{else}}
+        <li style="float:right">
+          <div class="dropdown">
+            <button class="ui dropdown button">
+              <div class="bar1"></div>
+              <div class="bar2"></div>
+              <div class="bar3"></div>
+            </button>
+            <div class="dropdown-content menu">
+              <div class="item"><a href="{{pathFor route='kayaking_map'}}">Kayaking</a></div>
+              <div class="item"><a href="{{pathFor route='contact'}}">Contact Us</a></div>               
+            </div>
+          </div> 
+        </li> 
+        <!-- <li style="float:right"><a href="{{pathFor route='register'}}">Sign Up</a></li>
+        <li style="float:right"><a href="{{pathFor route='login'}}">Log in</a></li> -->
+      {{/if}}
+    </nav>
+</template>
+
+<template name="welcomepic">
+  <div class="welcome">
+  </div>
+  <div class="welcomeinfo">
+    <div class="welcometext">
+      <p style="font-size: 36px;">Who are we?</p>
+      <p style="font-size: 24px;">We are trying to change way you plan your next adventure! We are a dynamic website where we are starting with kayaking, and moving onto all other activities. Stay tuned for backpacking, climbing, and mountaineering features to be added!</p>
+      <p style="font-size: 24px;">We are trying to evolve and introduce new features as soon as we can come up with them. If you have any suggestions for any updates, suggestions or new features please let us know!
+      </p>      
+    </div>    
+  </div>
+  <div class="welcome">
+  </div>
+  <div class="whoweare">
+    <div class="welcometext">
+      <p style="font-size: 36px;">Why Rocks Hurt?</p>
+      <p style="font-size: 24px;">
+        Most of the things we do involve rocks in some sort of way. Whether we're walking on them, or climbing on them, or kayaking over them. One common fact for every sport we do is that no matter what rocks are hard and when we hit them they Hurt!
+      </p>    
+    </div>    
+  </div>
+</template>
+
+<template name="login">
+  <div class="welcome">
+    <span class="loginspan">
+      <form class="login form-horizontal">
+        <div class="ui form">
+          <div class="fields">
+             <div class="field"><input type="email" name="email" placeholder="your email address" required></div>
+          </div>
+          <div class="fields">
+            <div class="field"><input type="password" name="password" class="ui input focus" placeholder="enter a password" required></div>
+          </div>
+          <div style="padding: 5px;">
+            <button type="submit" class="ui button">Login</button>
+          </div>          
+        </div>
+      </form>
+    </span>
+  </div>
+</template>
+
+<template name="register">
+  <div class="welcome ui form">
+    <span class="loginspan">
+      <form class="register ui">
+        <div class="fields">
+          <div class="field"><input type="email" name="email" placeholder="your email address" required></div>
+        </div>
+        <div class="fields">
+          <div class="field"><input type="password" name="password" placeholder="enter a password" id="password" required></div>
+        </div>
+        <div class="fields">
+          <div class="field"><input type="password" name="confirmpassword" placeholder="confirm password" required></div>
+        </div>
+        <div class="fields">
+          <div class="field"><input type="text" name="username" placeholder="username" required></div>
+        </div>
+        <div style="padding: 5px;">
+          <button class="ui button" type="submit">Register</button>
+        </div>          
+        <div class="ui error message"></div>
+      </form>
+    </span>
+  </div>
+</template>
+
+<template name="useraccounts">
+  {{#unless currentUser.emails.[0].verified}}
+      <p class="alert alert-warning">You need to verify your email address before using Rocks Hurt. <a href="#" class="resend-verification-link">Resend verification link</a>.</p>
+  {{else}}
+    <div class="userinfo">
+      <div>
+        <p>My Picture</p>
+        <img src="{{UserProfile.profilepicture}}" class="ui medium rounded image">
+      </div>
+      <div>
+        <h4>My Account Info</h4>
+        <p>Username: {{UserProfile.username}}</p>
+        <p>Email: {{meteorprofile.email}}</p>
+        <button type="submit" class="ui primary button editinfo">Edit My Info</button>
+      </div>
+
+      <!-- Modal -->
+      <div class="ui modal info">
+        <i class="close icon"></i>
+        <div class="header">
+          Account Information
+        </div>
+        <div class="content">
+          <div class="description">
+            <div class="ui header">We've auto-chosen a profile image for you.</div>
+            <div class="ui labeled input">
+                <div class="ui label">
+                  Email:
+                </div>
+              <input type="email" name="email" value="{{meteorprofile.email}}" required>
+            </div>
+            <div class="ui labeled input">
+                <div class="ui label">
+                  Username:
+                </div>
+              <input type="text" name="username" value="{{UserProfile.username}}" required>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <!-- <button class="ui black deny button">
+            Nope
+          </button> -->
+          <button type="submit" class="ui positive right labeled icon button">
+            Save
+            <i class="save icon"></i>
+          </button>
+        </div>
+      </div>
+      <!-- end modal -->
+    </div>
+  {{/unless}}
+</template>
+
+<template name="allgear">
+  <table class="ui very basic striped table tablesorter">
+    <thead class="center aligned">
+      <tr>
+        <!-- <th>Img</th> -->
+        <th>Name</th> 
+        <th>Category</th>
+        <th>Weight (g)</th>
+        <th>Brand</th>
+        <th>Mine</th>
+      </tr>
+    </thead>
+    <tbody class="container" id="geartable">
+      {{> gearwithbrands}}
+    </tbody>
+  </table>
+</template>
+
+<template name="gear">
+  <div class="mygearheader">
+    <h2>Our Current Gear Database!</h2>  
+    <!-- <p>Here you can add any pieve of gear you want, from a camp spork, your favorite backcountry coffee, or even a kayak! Click the mine button to add the gear to "mygearlist"!</p>
+    <button name="addgear" class="ui primary button editinfo" type="submit">Add New Gear!</button> -->
+  </div>
+  <div class="search ui icon input">
+    <input type="text" name="SearchCriteria" placeholder="Search by Name">
+    <i class="circular search link icon"></i>
+  </div>
+  <div>
+    {{> allgear}}
+  </div>  
+
+  <!-- Modals! -->
+  <div class="ui modal addgear">
+      <i class="close icon"></i>
+      <div class="header">
+        <h3>New Gear! Hooray!</h3>
+      </div>
+      <div class="content">
+        <div class="description">
+          <div class="ui header">Add some shiny new gear to the list!</div>
+          <!-- <div>
+            <p>Upload A Picture</p>
+            {{> dropzone contentType='images' fileTypes='.jpg' multiple=true formData=specificFormData }}
+          </div> -->
+          <div class="ui labeled input">
+              <div class="ui label">
+                Name:
+              </div>
+            <input type="text" name="newgearname" placeholder="Name Please" required>
+          </div>
+          <div class="ui labeled input">
+              <div class="ui label">
+                Brand:
+              </div>
+            <input type="text" name="newgearbrand" placeholder="i.e. Nemo" required>
+          </div>
+          <div class="ui labeled input">
+              <div class="ui label">
+                Category:
+              </div>
+              <select class="ui dropdown">
+                <option value="">Other</option>
+                <option value="6">Skiing</option>
+                <option value="5">Ice Climbing</option>
+                <option value="4">Rock Climbing</option>
+                <option value="3">Biking</option>
+                <option value="2">Mountaineering</option>
+                <option value="1">Whitewater</option>
+                <option value="0">Backpacking</option>
+              </select>
+          </div>
+          <div class="ui right labeled input">
+            <input type="text" name="newgearweight" placeholder="Enter Weight">
+              <div class="ui basic label">
+                g
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui black deny button">
+          Nope
+        </div>
+        <div class="ui positive right labeled icon button">
+          Save
+          <i class="save icon"></i>
+        </div>
+      </div>
+    </div>
+</template>
+
+<template name="gearwithbrands">
+  {{#if Template.subscriptionsReady}}
+    {{#each getGear}}
+      <tr draggable="true">
+        <!-- <td></td> -->
+        <td>{{name}}</td>
+        <td>{{category}}</td>
+        <td>{{gramWeight}}</td>        
+        <td>{{getBrands.name}}</td>
+        <td>
+          {{#if myroute}}
+            {{#if addedgear}}
+              <button class="positive ui button addbutton">Add</button>
+            {{else}}
+              <button class="negative ui button removebutton">Remove</button>
+            {{/if}}
+          {{else}}
+            <i class="remove icon removetripgear"></i>
+          {{/if}}
+        </td>
+      </tr>
+    {{/each}}
+  {{else}}
+    {{> loading}}
+  {{/if}}
+</template>
+
+<template name="loading">
+  <div class="load-wrapp">
+      <div class="load-3">
+          <p>Loading...</p>
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+      </div>
+  </div>
+</template>
+
+<template name="mygear">
+  {{> sidenav}}
+  <div class="pusher">
+    <div class="mygearheader">
+      <p>Hello! On this page, you can see all the gear you added to your gear inventory. From here you can create trip lists, add gear to lists, and remove gear from you inventory. Safe travels!</p>
+    </div>
+    <div> 
+      {{> allgear}}
+    </div>
+  </div>  
+</template>
+
+<template name="sidenav">
+  <div class="sidenav">
+    <p>Add/Remove Lists Here!</p>
+    <div>
+      <form>
+        <div class="ui icon input">
+          <input type="text" name="GearListInput" placeholder="Enter List Name!">
+          <i class="add circle icon"></i>
+        </div>        
+      </form>
+      <div class="ui link list" id="triplistnames">
+        {{> triplistings}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name = "triplistings">
+  {{#if Template.subscriptionsReady}}
+    {{#each triplists}}
+      <a href="{{pathFor route='mytriplists'}}" class="item droparea">
+        <i class="remove circle outline icon"></i>
+        {{name}}
+      </a>
+    {{/each}}
+  {{/if}} 
+</template>
+
+<template name="mytriplists">
+  {{> sidenav}}
+  <div class="pusher">
+    <div class="Personalgearheader">
+      <p>Here is all the gear added to my trip.</p>
+    </div>    
+    <div id="weightpiechart">{{createChart}}</div>
+    <div>
+      {{> allgear}}
+    </div>
+  </div>
+</template>
+
+<template name="contact">
+  <div class="contacting">
+    <p style="font-size: 24px;">Who are we? We are avid whitewater kayakers, and general outdoor enthusiasts. While we're waiting for the snow to melt, or the climbs to finally open, web development is our new hobby. It's sometimes frustrating trying to plan kayaking trips to new areas and not being able to view the rivers on a map. We thought of this map as a possible solution and are working on making it into a reality; we have several other ideas that are actively being worked on, but we are welcoming all new suggestions. If you have found any errors or would like to offer suggestions or improvements please let us know. If you've stayed with us this far, thank you for taking the time read this and check out the site.</p><br>
+    <p style="font-size: 24px;"><a href="mailto:theserockshurt@gmail.com?Subject= Rockshurt Feedback" target="_self">Send Mail! (theserockshurt@gmail.com)</a></p>
+  </div>
+</template>

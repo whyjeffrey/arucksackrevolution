@@ -1,0 +1,24 @@
+<template name="kayaking_map">
+	<div>
+		<div class="contacting">
+			<h3 style="margin: 0;">Welcome!</h3><br>
+			<p style="font-size: 18px;">We are hoping you will find this tool useful for planning your next kayaking destination. We compiled American Whitewater's river information and embedded it into a Google Map where you can search for and see rivers in any US area. Let us know what you think, and as always we are looking for feedback (both positive and negative!).</p>
+			<p>Enter a radius for your search below:</p>
+			<div class="ui right labeled input">
+			  <input type="text" name = "radius" placeholder="Enter distance...">
+			  <div class="ui basic label">
+			    miles
+			  </div>
+			</div>
+		</div>
+		<div></div>
+		<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+		{{#if Template.subscriptionsReady}}
+			<div class="map-container">
+				{{> googleMap name="KayakMap" options=kayakmapoptions}}
+			</div>
+		{{else}}
+			{{> loading}}
+		{{/if}}
+	</div>	
+</template>

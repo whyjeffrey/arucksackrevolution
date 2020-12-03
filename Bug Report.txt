@@ -1,0 +1,8 @@
+Bug Report
+
+deleting items from my gear won't remove from trip lists
+	will clear on refresh 
+
+
+while dragging get item's name to drag 
+
